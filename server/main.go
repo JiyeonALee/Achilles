@@ -57,6 +57,9 @@ func (s *server) Compute(context.Context, *achilles.AchillesRequest) (*achilles.
 	result, err := SortScores(x)
 	return result, err
 }
+func getScore() []nationScore {
+	return scores
+}
 
 func main() {
 
