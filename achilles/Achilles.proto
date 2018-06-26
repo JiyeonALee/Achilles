@@ -9,6 +9,12 @@ option java_outer_classname = "Achilles";
 
 package achilles;
 
+message Pair {
+    // Unordered map of dynamically typed values.
+    string key = 1;
+    int32 value = 2;
+}
+
 // The greeting service definition.
 service ComputingMinScore {
  // Sends a greeting
@@ -20,5 +26,5 @@ message AchillesRequest {
 }
 // The response message containing the greetings
 message AchillesReply {
- string score = 1;
+    repeated Pair pair = 1;
 }

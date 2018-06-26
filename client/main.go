@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	pb "github.com/backendservice/Achilles/achilles"
@@ -30,19 +32,26 @@ func main() {
 	if len(os.Args) > 1 {
 		name = os.Args[1]
 	}
-	message, err := Compute(c, context.Background(), time.Minute, name)
+	reply, err := Compute(c, context.Background(), time.Minute, name)
+
+	for _, v := range reply.GetPair() {
+		group_team := strings.Split(v.Key, ":")
+		fmt.Printf("Group %s, Team %s: %d", group_team[0], group_team[1], v.Value)
+		fmt.Println()
+	}
+
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", *message)
 }
 
-func Compute(c pb.ComputingMinScoreClient, ctx context.Context, timeout time.Duration, name string) (*string, error) {
+func Compute(c pb.ComputingMinScoreClient, ctx context.Context, timeout time.Duration, name string) (*pb.AchillesReply, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
-	r, err := c.Compute(ctx, &pb.AchillesRequest{Name: name})
+	reply, err := c.Compute(ctx, &pb.AchillesRequest{Name: ""})
 	if err != nil {
 		return nil, err
 	}
-	return &r.Score, nil
+
+	return reply, nil
 }
