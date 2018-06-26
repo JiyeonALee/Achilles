@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+option java_package = 
+    "com.github.backendservice.Achilles";
+
+option java_outer_classname = "Achilles";
+
+package achilles;
+
+// The greeting service definition.
+service ComputingMinScore {
+ // Sends a greeting
+ rpc Compute (AchillesRequest) returns (AchillesReply) {}
+}
+// The request message containing the user's name.
+message AchillesRequest {
+ string name = 1;
+}
+// The response message containing the greetings
+message AchillesReply {
+ string score = 1;
+}
