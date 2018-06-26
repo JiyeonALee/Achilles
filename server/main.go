@@ -21,6 +21,11 @@ func (s *server) Compute(context.Context, *achilles.AchillesRequest) (*achilles.
 	result := &achilles.AchillesReply {Score: "3"}
 	return result, nil
 }
+
+func getScore() []nationScore{
+	return scores
+}
+
 func main() {
 
 	lis, err := net.Listen("tcp", port)
@@ -36,3 +41,4 @@ func main() {
 	}
 
 }
+
