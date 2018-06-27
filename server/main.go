@@ -47,6 +47,20 @@ func SortScores(score_map map[string][]int) (*achilles.AchillesReply, error) {
 func (s *server) Compute(context.Context, *achilles.AchillesRequest) (*achilles.AchillesReply, error) {
 	x := make(map[string][]int)
 
+	nations := []string{"Russia", "Saudi Arabia", "Egypt", "Uruguay",
+		"Portugal", "Spain", "Morocco", "Iran",
+		"France", "Australia", "Peru", "Denmark",
+		"Argentina", "Iceland", "Croatia", "Nigeria",
+		"Brazil", "Switzerland", "Costa Rica", "Serbia",
+		"Germany", "Mexico", "Sweden", "South Korea",
+		"Belgium", "Panama", "Tunisia", "England",
+		"Poland", "Senegal", "Colombia", "Japan"}
+
+	for _, nationName := range nations {
+		group, nation, nationScores := getScore(nationName)
+		x[group+":"+nation] = append(x[group+":"+nation], nationScores...)
+	}
+
 	// x["F:Korea"] = append(x["Korea"], 0)
 	// x["F:Korea"] = append(x["Korea"], 0)
 
@@ -64,7 +78,7 @@ func (s *server) Compute(context.Context, *achilles.AchillesRequest) (*achilles.
 }
 
 func getScore(nationTxt string) (nation_group string, nation string, nation_scores []int) {
-	raw, err := ioutil.ReadFile("./score.json")
+	raw, err := ioutil.ReadFile("./server/score.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -471,15 +485,6 @@ func getScoreFromGroupH(data WorldCup_Data, nation_id int) (nation_group string,
 }
 
 func main() {
-
-	nation_group, nation, nation_scores := getScore("korea")
-
-	fmt.Println(nation_group)
-	fmt.Println(nation)
-	for _, score := range nation_scores {
-		fmt.Println(score)
-	}
-
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

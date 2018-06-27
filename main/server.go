@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/backendservice/Achilles/achilles"
-	grpc "google.golang.org/grpc"
 	"context"
 	"log"
 	"net"
+
+	"github.com/backendservice/Achilles/achilles"
+	grpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -14,11 +15,10 @@ const (
 )
 
 type server struct {
-	
 }
 
 func (s *server) Compute(context.Context, *achilles.AchillesRequest) (*achilles.AchillesReply, error) {
-	result := &achilles.AchillesReply {Score: "3"}
+	result := &achilles.AchillesReply{Score: "3"}
 	return result, nil
 }
 func main() {
